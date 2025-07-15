@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import React from 'react';
-import ClickToCopy from './ClickToCopy';
+import { getConfigValue } from '../../utils/config/get-config';
 import './TraceId.css';
 
 type Props = {
@@ -22,15 +22,11 @@ type Props = {
 };
 
 export function TraceId({ traceId, className = '' }: Props) {
-  const traceIdDisplayLength = 7;
+  const traceIdDisplayLength = getConfigValue('traceIdDisplayLength') || 7;
   const traceIdDisplay = traceId ? traceId.slice(0, traceIdDisplayLength) : '';
-  const lengthClass = 'TraceIDLength--short';
+  const lengthClass = traceIdDisplayLength === 7 ? 'TraceIDLength--short' : 'TraceIDLength--full';
 
-  return (
-    <ClickToCopy text={traceId} className={`TraceIDLength ${lengthClass} u-tx-muted ${className}`}>
-      {traceIdDisplay}
-    </ClickToCopy>
-  );
+  return <small className={`TraceIDLength ${lengthClass} u-tx-muted  ${className} `}>{traceIdDisplay}</small>;
 }
 
 export default TraceId;
